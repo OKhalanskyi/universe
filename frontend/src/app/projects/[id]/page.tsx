@@ -36,7 +36,7 @@ export default function ProjectDetailsPage() {
         <div className="space-y-8 mx-auto py-8">
           <div className="flex items-center mb-8">
             <Button asChild variant="ghost" size="sm" className="mr-4">
-              <Link href="/frontend/public">
+              <Link href="/">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Назад
               </Link>
