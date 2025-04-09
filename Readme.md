@@ -51,7 +51,7 @@ GitHub Projects CRM is a full-stack application designed to help developers and 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/okhalanskyi/universe.git
-   cd github-projects-crm
+   cd universe
    ```
 
 2. **Environment Configuration**
