@@ -2,7 +2,7 @@
 import React, {PropsWithChildren} from 'react';
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "@/config/query-client";
-import {Toaster} from "@/shared/ui/sonner";
+import {Toaster} from "sonner";
 
 const Providers = ({ children }: PropsWithChildren) => {
   return (
