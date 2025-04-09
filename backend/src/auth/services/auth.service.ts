@@ -1,12 +1,15 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
-import {PrismaService} from "../../prisma/prisma.service";
-import {TokenService} from "./token.service";
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { TokenService } from './token.service';
 import * as bcrypt from 'bcryptjs';
-import {RegisterDto} from "../dtos/register.dto";
-import {UserService} from "../../user/user.service";
-import {LoginDto} from "../dtos/login.dto";
-import {FastifyReply} from "fastify";
-
+import { RegisterDto } from '../dtos/register.dto';
+import { UserService } from '../../user/user.service';
+import { LoginDto } from '../dtos/login.dto';
+import { FastifyReply } from 'fastify';
 
 @Injectable()
 export class AuthService {
@@ -94,7 +97,6 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
-
 
     if (!user || !user.password) {
       return null;

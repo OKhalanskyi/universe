@@ -1,10 +1,10 @@
-import {PrismaModule} from "../prisma/prisma.module";
-import {Module} from "@nestjs/common";
-import {GithubRepositoryController} from "./githubRepository.controller";
-import {HttpModule} from "@nestjs/axios";
-import {GithubRepositoryService} from "./services/github-repository.service";
-import {GithubApiService} from "./services/github-api.service";
-import {UserModule} from "../user/user.module";
+import { PrismaModule } from '../prisma/prisma.module';
+import { Module } from '@nestjs/common';
+import { GithubRepositoryController } from './githubRepository.controller';
+import { HttpModule } from '@nestjs/axios';
+import { GithubRepositoryService } from './services/github-repository.service';
+import { GithubApiService } from './services/github-api.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [

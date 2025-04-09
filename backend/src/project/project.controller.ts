@@ -12,12 +12,19 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
-import {CreateProjectDto} from "./dtos/createProject.dto";
-import {ProjectResponseDto} from "./dtos/projectResponse.dto";
-import {GetUser} from "../auth/getUser";
-import {UpdateProjectDto} from "./dtos/updateProject.dto";
-import {JwtAuthGuard} from "../auth/guards/jwtAuth.guard";
-import {ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
+import { CreateProjectDto } from './dtos/createProject.dto';
+import { ProjectResponseDto } from './dtos/projectResponse.dto';
+import { GetUser } from '../auth/getUser';
+import { UpdateProjectDto } from './dtos/updateProject.dto';
+import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('Projects')
 @Controller('projects')
@@ -28,13 +35,13 @@ export class ProjectController {
   @Post()
   @ApiOperation({
     summary: 'Create new project',
-    description: 'Create a new project to organize GitHub repositories'
+    description: 'Create a new project to organize GitHub repositories',
   })
   @ApiBody({ type: CreateProjectDto })
   @ApiResponse({
     status: 201,
     description: 'Project successfully created',
-    type: ProjectResponseDto
+    type: ProjectResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -48,18 +55,18 @@ export class ProjectController {
   @Get()
   @ApiOperation({
     summary: 'Get projects list',
-    description: 'Retrieve list of all projects for the authenticated user'
+    description: 'Retrieve list of all projects for the authenticated user',
   })
   @ApiQuery({
     name: 'includeRepositories',
     required: false,
     type: Boolean,
-    description: 'Include associated repositories in the response'
+    description: 'Include associated repositories in the response',
   })
   @ApiResponse({
     status: 200,
     description: 'List of projects',
-    type: [ProjectResponseDto]
+    type: [ProjectResponseDto],
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(
@@ -72,19 +79,19 @@ export class ProjectController {
   @Get(':id')
   @ApiOperation({
     summary: 'Get project details',
-    description: 'Retrieve detailed information about a specific project'
+    description: 'Retrieve detailed information about a specific project',
   })
   @ApiParam({ name: 'id', description: 'Project ID' })
   @ApiQuery({
     name: 'includeRepositories',
     required: false,
     type: Boolean,
-    description: 'Include associated repositories in the response'
+    description: 'Include associated repositories in the response',
   })
   @ApiResponse({
     status: 200,
     description: 'Project details',
-    type: ProjectResponseDto
+    type: ProjectResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Project not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -99,14 +106,14 @@ export class ProjectController {
   @Patch(':id')
   @ApiOperation({
     summary: 'Update project',
-    description: 'Update project information such as name or description'
+    description: 'Update project information such as name or description',
   })
   @ApiParam({ name: 'id', description: 'Project ID' })
   @ApiBody({ type: UpdateProjectDto })
   @ApiResponse({
     status: 200,
     description: 'Project successfully updated',
-    type: ProjectResponseDto
+    type: ProjectResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Project not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -122,7 +129,7 @@ export class ProjectController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'Delete project',
-    description: 'Remove a project and disassociate all repositories from it'
+    description: 'Remove a project and disassociate all repositories from it',
   })
   @ApiParam({ name: 'id', description: 'Project ID' })
   @ApiResponse({ status: 204, description: 'Project successfully deleted' })

@@ -1,17 +1,16 @@
 'use client';
 
-import React from "react";
-import { useParams } from "next/navigation";
-import {PrivateLayout} from "@/modules/auth";
-import {useProject} from "@/modules/project/model/use-project";
-import {Button} from "@/shared/ui/button";
-import Link from "next/link";
-import {ArrowLeft, Loader2} from "lucide-react";
-import {EditProjectDialog} from "@/modules/project/ui/edit-project-dialog";
-import {DeleteProjectDialog} from "@/modules/project/ui/delete-project-dialog";
-import {PageHeader} from "@/widgets/page-header";
-import {RepositoryList} from "@/modules/repository/ui/repository-list";
-
+import React from 'react';
+import { useParams } from 'next/navigation';
+import { PrivateLayout } from '@/modules/auth';
+import { useProject } from '@/modules/project/model/use-project';
+import { Button } from '@/shared/ui/button';
+import Link from 'next/link';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import { EditProjectDialog } from '@/modules/project/ui/edit-project-dialog';
+import { DeleteProjectDialog } from '@/modules/project/ui/delete-project-dialog';
+import { PageHeader } from '@/widgets/page-header';
+import { RepositoryList } from '@/modules/repository/ui/repository-list';
 
 export default function ProjectDetailsPage() {
   const params = useParams();
@@ -45,14 +44,11 @@ export default function ProjectDetailsPage() {
 
           <PageHeader
             heading={project.name}
-            subheading={project.description || "Без опису"}
+            subheading={project.description || 'Без опису'}
             actions={
               <div className="flex space-x-2">
                 <EditProjectDialog project={project} />
-                <DeleteProjectDialog
-                  projectId={project.id}
-                  projectName={project.name}
-                />
+                <DeleteProjectDialog projectId={project.id} projectName={project.name} />
               </div>
             }
           />

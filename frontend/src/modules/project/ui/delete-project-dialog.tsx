@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,10 +11,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/shared/ui/alert-dialog";
-import { Button } from "@/shared/ui/button";
-import { Trash2 } from "lucide-react";
-import { useDeleteProject } from "../model/use-delete-project";
+} from '@/shared/ui/alert-dialog';
+import { Button } from '@/shared/ui/button';
+import { Trash2 } from 'lucide-react';
+import { useDeleteProject } from '../model/use-delete-project';
 
 interface DeleteProjectDialogProps {
   projectId: string;
@@ -22,11 +22,7 @@ interface DeleteProjectDialogProps {
   trigger?: React.ReactNode;
 }
 
-export function DeleteProjectDialog({
-                                      projectId,
-                                      projectName,
-                                      trigger,
-                                    }: DeleteProjectDialogProps) {
+export function DeleteProjectDialog({ projectId, projectName, trigger }: DeleteProjectDialogProps) {
   const [open, setOpen] = useState(false);
   const { deleteProject, isLoading } = useDeleteProject({ redirectTo: '/' });
 
@@ -48,14 +44,14 @@ export function DeleteProjectDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Ви впевнені?</AlertDialogTitle>
           <AlertDialogDescription>
-            Ви збираєтеся видалити проєкт "{projectName}". Ця дія незворотна.
-            Репозиторії, пов'язані з цим проєктом, не будуть видалені.
+            Ви збираєтеся видалити проєкт &quot;{projectName}&quot;. Ця дія незворотна. Репозиторії, пов&rsquo;язані
+            з цим проєктом, не будуть видалені.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Скасувати</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete} disabled={isLoading}>
-            {isLoading ? "Видалення..." : "Видалити"}
+            {isLoading ? 'Видалення...' : 'Видалити'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

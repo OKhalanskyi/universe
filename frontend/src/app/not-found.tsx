@@ -2,9 +2,16 @@
 
 import Link from 'next/link';
 import { AlertTriangle } from 'lucide-react';
-import {Alert, AlertDescription, AlertTitle} from "@/shared/ui/alert";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/shared/ui/card";
-import {Button} from "@/shared/ui/button";
+import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/alert';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/card';
+import { Button } from '@/shared/ui/button';
 
 export default function NotFound() {
   return (
@@ -20,9 +27,9 @@ export default function NotFound() {
 
         <CardContent>
           <Alert variant="destructive" className="mb-4">
-            <AlertTitle>We couldn't find this page</AlertTitle>
+            <AlertTitle>We couldn&#39;t find this page</AlertTitle>
             <AlertDescription>
-              The page you are looking for doesn't exist or has been moved.
+              The page you are looking for doesn&#39;t exist or has been moved.
             </AlertDescription>
           </Alert>
         </CardContent>

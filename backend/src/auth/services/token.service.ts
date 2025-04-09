@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request, Response } from 'express';
-import CONSTANTS from "../../config/constants";
-import {PrismaService} from "../../prisma/prisma.service";
-import {FastifyReply} from "fastify";
-import {setCookie} from "../../utils/setCookie";
+import { Request } from 'express';
+import CONSTANTS from '../../config/constants';
+import { PrismaService } from '../../prisma/prisma.service';
+import { FastifyReply } from 'fastify';
+import { setCookie } from '../../utils/setCookie';
 
 @Injectable()
 export class TokenService {
@@ -36,7 +36,6 @@ export class TokenService {
         });
         return null;
       }
-
 
       return payload;
     } catch (error) {

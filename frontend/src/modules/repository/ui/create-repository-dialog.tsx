@@ -1,11 +1,17 @@
 'use client';
 
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui/dialog";
-import { Button } from "@/shared/ui/button";
-import { Plus } from "lucide-react";
-import { RepositoryForm, RepositoryFormValues } from "./repository-form";
-import { useCreateRepository } from "../model/use-create-repository";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/shared/ui/dialog';
+import { Button } from '@/shared/ui/button';
+import { Plus } from 'lucide-react';
+import { RepositoryForm, RepositoryFormValues } from './repository-form';
+import { useCreateRepository } from '../model/use-create-repository';
 
 interface CreateRepositoryDialogProps {
   children?: React.ReactNode;
@@ -14,10 +20,9 @@ interface CreateRepositoryDialogProps {
 }
 
 export function CreateRepositoryDialog({
-                                         children,
-                                         trigger,
-                                         projectId,
-                                       }: CreateRepositoryDialogProps) {
+  trigger,
+  projectId,
+}: CreateRepositoryDialogProps) {
   const [open, setOpen] = useState(false);
   const { createRepository, isLoading } = useCreateRepository();
 

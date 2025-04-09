@@ -1,25 +1,28 @@
 'use client';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import {syncUserRepositories} from "@/modules/repository/api/sync-user-repositories";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { syncUserRepositories } from '@/modules/repository/api/sync-user-repositories';
 
 export const useSyncRepositories = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: syncUserRepositories,
-    onSuccess: (data) => {
+    onSuccess: data => {
       toast.success(`Синхронізовано ${data.length} репозиторіїв`, {
-        description: "Ваші GitHub репозиторії успішно синхронізовано",
+        description: 'Ваші GitHub репозиторії успішно синхронізовано',
       });
 
       queryClient.invalidateQueries({ queryKey: ['repositories'] });
     },
-    onError: (error: any) => {
-      toast.error("Помилка при синхронізації", {
-        description: error.response?.data?.message || "Перевірте GitHub доступ",
-      });
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error('Помилка при синхронізації', {
+          description: error.message || 'Перевірте GitHub доступ',
+        });
+        return;
+      }
     },
   });
 

@@ -1,16 +1,16 @@
-import {useProjects} from "@/modules/project/model/use-projects";
-import {z} from "zod";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/ui/form";
-import {Input} from "@/shared/ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/shared/ui/select";
-import {Button} from "@/shared/ui/button";
-import {Loader2} from "lucide-react";
+import { useProjects } from '@/modules/project/model/use-projects';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { Input } from '@/shared/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { Button } from '@/shared/ui/button';
+import { Loader2 } from 'lucide-react';
 
 const repositorySchema = z.object({
   path: z.string().regex(/^[a-zA-Z0-9\-]+\/[a-zA-Z0-9\-_.]+$/, {
-    message: "Шлях повинен бути у форматі власник/назва-репозиторію",
+    message: 'Шлях повинен бути у форматі власник/назва-репозиторію',
   }),
   projectId: z.string().optional(),
 });
@@ -25,13 +25,13 @@ interface RepositoryFormProps {
 }
 
 export function RepositoryForm({
-                                 defaultValues = {
-                                   path: '',
-                                 },
-                                 onSubmit,
-                                 isLoading = false,
-                                 submitText = "Зберегти",
-                               }: RepositoryFormProps) {
+  defaultValues = {
+    path: '',
+  },
+  onSubmit,
+  isLoading = false,
+  submitText = 'Зберегти',
+}: RepositoryFormProps) {
   const { data: projects } = useProjects();
   const form = useForm<RepositoryFormValues>({
     resolver: zodResolver(repositorySchema),
@@ -48,10 +48,7 @@ export function RepositoryForm({
             <FormItem>
               <FormLabel>Шлях до репозиторію</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="власник/назва-репозиторію"
-                  {...field}
-                />
+                <Input placeholder="власник/назва-репозиторію" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -63,18 +60,15 @@ export function RepositoryForm({
           name="projectId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Проєкт (необов'язково)</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
+              <FormLabel>Проєкт (необов&#39;язково)</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Виберіть проєкт" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {projects?.map((project) => (
+                  {projects?.map(project => (
                     <SelectItem key={project.id} value={project.id}>
                       {project.name}
                     </SelectItem>

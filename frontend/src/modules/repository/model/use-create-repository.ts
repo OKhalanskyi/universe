@@ -1,10 +1,11 @@
 'use client';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import {createRepository} from "@/modules/repository/api/create-repository";
-import {CreateRepositoryInput} from "@/modules/repository/interfaces/repository";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { createRepository } from '@/modules/repository/api/create-repository';
+import { CreateRepositoryInput } from '@/modules/repository/interfaces/repository';
+import {AxiosError} from "axios";
 
 export const useCreateRepository = (options?: { redirectTo?: string }) => {
   const queryClient = useQueryClient();
@@ -13,8 +14,8 @@ export const useCreateRepository = (options?: { redirectTo?: string }) => {
   const mutation = useMutation({
     mutationFn: createRepository,
     onSuccess: async () => {
-      toast.success("Репозиторій додано", {
-        description: "Репозиторій успішно додано до вашого CRM",
+      toast.success('Репозиторій додано', {
+        description: 'Репозиторій успішно додано до вашого CRM',
       });
 
       await queryClient.invalidateQueries({ queryKey: ['repositories'] });
@@ -24,10 +25,13 @@ export const useCreateRepository = (options?: { redirectTo?: string }) => {
         router.push(options.redirectTo);
       }
     },
-    onError: (error: any) => {
-      toast.error("Помилка при додаванні репозиторію", {
-        description: error.response?.data?.message || "Перевірте правильність даних",
-      });
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error('Помилка при додаванні репозиторію', {
+          description: error.response?.data?.message || 'Перевірте правильність даних',
+        });
+        return;
+      }
     },
   });
 

@@ -1,17 +1,15 @@
 'use client';
 
-import React from "react";
-import { CalendarIcon, Clock, GitFork, Github, Star } from "lucide-react";
-import { formatDistance } from "date-fns";
-import { uk } from "date-fns/locale";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
-import { Project } from "../interfaces/project";
-import { Badge } from "@/shared/ui/badge";
-import { format } from "date-fns";
-import Link from "next/link";
-import { Button } from "@/shared/ui/button";
-import { EditProjectDialog } from "./edit-project-dialog";
-import { DeleteProjectDialog } from "./delete-project-dialog";
+import React from 'react';
+import { Clock, GitFork, Github, Star } from 'lucide-react';
+import { formatDistance } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Project } from '../interfaces/project';
+import Link from 'next/link';
+import { Button } from '@/shared/ui/button';
+import { EditProjectDialog } from './edit-project-dialog';
+import { DeleteProjectDialog } from './delete-project-dialog';
 
 interface ProjectCardProps {
   project: Project;
@@ -29,10 +27,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <CardTitle>{project.name}</CardTitle>
           <div className="flex space-x-2">
             <EditProjectDialog project={project} />
-            <DeleteProjectDialog
-              projectId={project.id}
-              projectName={project.name}
-            />
+            <DeleteProjectDialog projectId={project.id} projectName={project.name} />
           </div>
         </div>
 
@@ -47,7 +42,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       <CardContent className="flex flex-col h-24">
         <p className="text-sm text-muted-foreground line-clamp-3">
-          {project.description || "Без опису"}
+          {project.description || 'Без опису'}
         </p>
       </CardContent>
 
@@ -74,9 +69,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <Button asChild variant="outline" size="sm">
-          <Link href={`/projects/${project.id}`}>
-            Відкрити
-          </Link>
+          <Link href={`/projects/${project.id}`}>Відкрити</Link>
         </Button>
       </CardFooter>
     </Card>

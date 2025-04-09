@@ -1,9 +1,10 @@
 'use client';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { logout } from "@/modules/auth/api/logout";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { logout } from '@/modules/auth/api/logout';
+import {AxiosError} from "axios";
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
@@ -16,14 +17,17 @@ export const useLogout = () => {
 
       router.push('/login');
 
-      toast.success("Вихід виконано успішно", {
-        description: "Ви вийшли з системи",
+      toast.success('Вихід виконано успішно', {
+        description: 'Ви вийшли з системи',
       });
     },
-    onError: (error: any) => {
-      toast.error("Помилка при виході з системи", {
-        description: error.response?.data?.message || "Спробуйте ще раз",
-      });
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error('Помилка при виході з системи', {
+          description: error.response?.data?.message || 'Спробуйте ще раз',
+        });
+        return;
+      }
     },
   });
 

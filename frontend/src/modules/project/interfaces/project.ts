@@ -1,3 +1,5 @@
+import {Repository} from "@/modules/repository/interfaces/repository";
+
 export interface Project {
   id: string;
   name: string;
@@ -5,7 +7,7 @@ export interface Project {
   userId: string;
   createdAt: string | Date;
   updatedAt: string | Date;
-  repositories?: any[];
+  repositories?: Repository[];
 }
 
 export interface CreateProjectInput {

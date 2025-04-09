@@ -1,16 +1,16 @@
 'use client';
 
-import React from "react";
-import { CalendarIcon, GitFork, Github, RefreshCw, Star } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { uk } from "date-fns/locale";
-import { Card, CardContent, CardFooter, CardHeader } from "@/shared/ui/card";
-import { Repository } from "../interfaces/repository";
-import { Badge } from "@/shared/ui/badge";
-import { Button } from "@/shared/ui/button";
-import { UpdateRepositoryDialog } from "./update-repository-dialog";
-import { DeleteRepositoryDialog } from "./delete-repository-dialog";
-import { useRefreshRepository } from "../model/use-refresh-repository";
+import React from 'react';
+import { CalendarIcon, GitFork, RefreshCw, Star } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import { Card, CardContent, CardHeader } from '@/shared/ui/card';
+import { Repository } from '../interfaces/repository';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { UpdateRepositoryDialog } from './update-repository-dialog';
+import { DeleteRepositoryDialog } from './delete-repository-dialog';
+import { useRefreshRepository } from '../model/use-refresh-repository';
 
 interface RepositoryCardProps {
   repository: Repository;
@@ -47,20 +47,16 @@ export function RepositoryCard({ repository }: RepositoryCardProps) {
             </div>
             <div className="text-sm text-muted-foreground mt-1 flex items-center">
               <CalendarIcon className="mr-1 h-3 w-3" />
-              Створено {formatDistanceToNow(new Date(repository.createdAt), {
-              addSuffix: true,
-              locale: uk,
-            })}
+              Створено{' '}
+              {formatDistanceToNow(new Date(repository.createdAt), {
+                addSuffix: true,
+                locale: uk,
+              })}
             </div>
           </div>
 
           <div className="flex space-x-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={handleRefresh}
-              disabled={isLoading}
-            >
+            <Button variant="outline" size="icon" onClick={handleRefresh} disabled={isLoading}>
               <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             </Button>
             <UpdateRepositoryDialog repository={repository} />

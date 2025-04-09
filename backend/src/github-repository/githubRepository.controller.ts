@@ -11,14 +11,21 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import {JwtAuthGuard} from "../auth/guards/jwtAuth.guard";
-import {GithubRepositoryService} from "./services/github-repository.service";
-import {CreateRepositoryDto} from "./dtos/createRepository.dto";
-import {RepositoryResponseDto} from "./dtos/repositoryResponse.dto";
-import {GetUser} from "../auth/getUser";
-import {UpdateRepositoryDto} from "./dtos/updateRepository.dto";
-import {User} from "@prisma/client";
-import {ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
+import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
+import { GithubRepositoryService } from './services/github-repository.service';
+import { CreateRepositoryDto } from './dtos/createRepository.dto';
+import { RepositoryResponseDto } from './dtos/repositoryResponse.dto';
+import { GetUser } from '../auth/getUser';
+import { UpdateRepositoryDto } from './dtos/updateRepository.dto';
+import { User } from '@prisma/client';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('GitHub Repositories')
 @Controller('repositories')
@@ -29,13 +36,14 @@ export class GithubRepositoryController {
   @Post()
   @ApiOperation({
     summary: 'Add a new GitHub repository',
-    description: 'Add a GitHub repository to your account by specifying the path in owner/name format'
+    description:
+      'Add a GitHub repository to your account by specifying the path in owner/name format',
   })
   @ApiBody({ type: CreateRepositoryDto })
   @ApiResponse({
     status: 201,
     description: 'Repository successfully added',
-    type: RepositoryResponseDto
+    type: RepositoryResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   @ApiResponse({ status: 404, description: 'Repository not found on GitHub' })
@@ -50,22 +58,24 @@ export class GithubRepositoryController {
   @Get()
   @ApiOperation({
     summary: 'Get repositories list',
-    description: 'Retrieve list of repositories with optional filtering by project'
+    description:
+      'Retrieve list of repositories with optional filtering by project',
   })
   @ApiQuery({
     name: 'projectId',
     required: false,
-    description: 'Filter repositories by project ID'
+    description: 'Filter repositories by project ID',
   })
   @ApiQuery({
     name: 'unassigned',
     required: false,
-    description: 'If true, return only repositories not associated with any project'
+    description:
+      'If true, return only repositories not associated with any project',
   })
   @ApiResponse({
     status: 200,
     description: 'List of repositories',
-    type: [RepositoryResponseDto]
+    type: [RepositoryResponseDto],
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(
@@ -80,13 +90,13 @@ export class GithubRepositoryController {
   @Get(':id')
   @ApiOperation({
     summary: 'Get repository details',
-    description: 'Retrieve detailed information about a specific repository'
+    description: 'Retrieve detailed information about a specific repository',
   })
   @ApiParam({ name: 'id', description: 'Repository ID' })
   @ApiResponse({
     status: 200,
     description: 'Repository details',
-    type: RepositoryResponseDto
+    type: RepositoryResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Repository not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -100,14 +110,15 @@ export class GithubRepositoryController {
   @Patch(':id')
   @ApiOperation({
     summary: 'Update repository',
-    description: 'Update repository information, such as the associated project'
+    description:
+      'Update repository information, such as the associated project',
   })
   @ApiParam({ name: 'id', description: 'Repository ID' })
   @ApiBody({ type: UpdateRepositoryDto })
   @ApiResponse({
     status: 200,
     description: 'Repository successfully updated',
-    type: RepositoryResponseDto
+    type: RepositoryResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Repository not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -123,17 +134,21 @@ export class GithubRepositoryController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Refresh repository data',
-    description: 'Update repository information with the latest data from GitHub API'
+    description:
+      'Update repository information with the latest data from GitHub API',
   })
   @ApiParam({ name: 'id', description: 'Repository ID' })
   @ApiResponse({
     status: 200,
     description: 'Repository data successfully refreshed',
-    type: RepositoryResponseDto
+    type: RepositoryResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Repository not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  refresh(@GetUser() user, @Param('id') id: string): Promise<RepositoryResponseDto> {
+  refresh(
+    @GetUser() user,
+    @Param('id') id: string,
+  ): Promise<RepositoryResponseDto> {
     return this.repositoryService.refresh(user, id);
   }
 
@@ -141,7 +156,7 @@ export class GithubRepositoryController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'Delete repository',
-    description: 'Remove a repository from your account'
+    description: 'Remove a repository from your account',
   })
   @ApiParam({ name: 'id', description: 'Repository ID' })
   @ApiResponse({ status: 204, description: 'Repository successfully deleted' })
@@ -157,12 +172,12 @@ export class GithubRepositoryController {
   @Post('sync')
   @ApiOperation({
     summary: 'Sync user repositories',
-    description: 'Synchronize repositories from your GitHub account'
+    description: 'Synchronize repositories from your GitHub account',
   })
   @ApiResponse({
     status: 200,
     description: 'Repositories successfully synchronized',
-    type: [RepositoryResponseDto]
+    type: [RepositoryResponseDto],
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @HttpCode(HttpStatus.OK)

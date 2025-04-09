@@ -1,13 +1,13 @@
 'use client';
 
-import React from "react";
-import { useProject } from "../model/use-project";
-import { useParams } from "next/navigation";
-import { Loader2 } from "lucide-react";
-import { format } from "date-fns";
-import { uk } from "date-fns/locale";
-import { EditProjectDialog } from "./edit-project-dialog";
-import { DeleteProjectDialog } from "./delete-project-dialog";
+import React from 'react';
+import { useProject } from '../model/use-project';
+import { useParams } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
+import { format } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import { EditProjectDialog } from './edit-project-dialog';
+import { DeleteProjectDialog } from './delete-project-dialog';
 
 export function ProjectDetails() {
   const params = useParams();
@@ -46,16 +46,11 @@ export function ProjectDetails() {
 
         <div className="flex space-x-2">
           <EditProjectDialog project={project} />
-          <DeleteProjectDialog
-            projectId={project.id}
-            projectName={project.name}
-          />
+          <DeleteProjectDialog projectId={project.id} projectName={project.name} />
         </div>
       </div>
 
-      <div className="pt-4">
-        {/*<RepositoryList projectId={projectId} />*/}
-      </div>
+      <div className="pt-4">{/*<RepositoryList projectId={projectId} />*/}</div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 'use client';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import {deleteRepository} from "@/modules/repository/api/delete-repository";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { deleteRepository } from '@/modules/repository/api/delete-repository';
+import {AxiosError} from "axios";
 
 export const useDeleteRepository = (options?: { redirectTo?: string }) => {
   const queryClient = useQueryClient();
@@ -12,8 +13,8 @@ export const useDeleteRepository = (options?: { redirectTo?: string }) => {
   const mutation = useMutation({
     mutationFn: deleteRepository,
     onSuccess: async () => {
-      toast.success("Репозиторій видалено", {
-        description: "Репозиторій успішно видалено з вашого CRM",
+      toast.success('Репозиторій видалено', {
+        description: 'Репозиторій успішно видалено з вашого CRM',
       });
 
       await queryClient.invalidateQueries({ queryKey: ['repositories'] });
@@ -24,10 +25,13 @@ export const useDeleteRepository = (options?: { redirectTo?: string }) => {
         router.push(options.redirectTo);
       }
     },
-    onError: (error: any) => {
-      toast.error("Помилка при видаленні репозиторію", {
-        description: error.response?.data?.message || "Спробуйте ще раз",
-      });
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error('Помилка при видаленні репозиторію', {
+          description: error.response?.data?.message || 'Спробуйте ще раз',
+        });
+        return;
+      }
     },
   });
 

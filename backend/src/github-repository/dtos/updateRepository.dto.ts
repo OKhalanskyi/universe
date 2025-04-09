@@ -1,14 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
 import { IsOptional, IsString } from 'class-validator';
-import {CreateRepositoryDto} from "./createRepository.dto";
-import {ApiProperty} from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateRepositoryDto {
   @ApiProperty({
     description: 'Project ID to associate with this repository',
     example: '123e4567-e89b-12d3-a456-426614174000',
     required: false,
-    nullable: true
+    nullable: true,
   })
   @IsOptional()
   @IsString()

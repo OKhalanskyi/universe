@@ -1,9 +1,9 @@
-import {useRouter} from "next/navigation";
-import {useMutation} from "@tanstack/react-query";
-import {RegisterFormValues} from "@/modules/auth/model/use-register-form";
-import {register} from "@/modules/auth/api/register";
-import {toast} from "sonner";
-import {isAxiosError} from "axios";
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { RegisterFormValues } from '@/modules/auth/model/use-register-form';
+import { register } from '@/modules/auth/api/register';
+import { toast } from 'sonner';
+import { isAxiosError } from 'axios';
 
 export const useRegisterSubmit = () => {
   const router = useRouter();
@@ -13,22 +13,22 @@ export const useRegisterSubmit = () => {
       const { confirmPassword, ...registerData } = data;
       return register(registerData);
     },
-    onSuccess: (data) => {
-      toast.success("Реєстрація успішна", {
-        description: "Ласкаво просимо до нашої платформи!",
+    onSuccess: () => {
+      toast.success('Реєстрація успішна', {
+        description: 'Ласкаво просимо до нашої платформи!',
       });
 
-      router.push("/login");
+      router.push('/login');
     },
-    onError: (error) => {
-      let errorMessage = "Не вдалося створити обліковий запис. Спробуйте ще раз.";
+    onError: error => {
+      let errorMessage = 'Не вдалося створити обліковий запис. Спробуйте ще раз.';
 
       if (isAxiosError(error) && error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
 
       toast.error(errorMessage, {
-        description: "Будь ласка, спробуйте ще раз.",
+        description: 'Будь ласка, спробуйте ще раз.',
       });
     },
   });
@@ -44,7 +44,7 @@ export const useRegisterSubmit = () => {
       ? mutation.error.response?.data?.message
       : mutation.error instanceof Error
         ? mutation.error.message
-        : "Невідома помилка",
+        : 'Невідома помилка',
     isError: mutation.isError,
   };
 };

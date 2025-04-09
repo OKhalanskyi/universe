@@ -1,7 +1,10 @@
-import apiClient from "@/config/axios-client";
-import {Repository} from "@/modules/repository/interfaces/repository";
+import apiClient from '@/config/axios-client';
+import { Repository } from '@/modules/repository/interfaces/repository';
 
-export const getRepositories = async (projectId?: string, showUnassigned?: boolean): Promise<Repository[]> => {
+export const getRepositories = async (
+  projectId?: string,
+  showUnassigned?: boolean,
+): Promise<Repository[]> => {
   const params: Record<string, string | boolean> = {};
 
   if (projectId) {

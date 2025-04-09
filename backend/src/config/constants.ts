@@ -5,10 +5,8 @@ import {
   validateSync,
   IsArray,
   IsNumber,
-  IsEmail,
 } from 'class-validator';
 import { InternalServerErrorException } from '@nestjs/common';
-import * as path from "node:path";
 
 export class EnvConfig {
   @IsNotEmpty()
@@ -68,7 +66,6 @@ export class EnvConfig {
   @IsNotEmpty()
   FRONTEND_URL: string;
 }
-
 
 const configInstance = plainToInstance(EnvConfig, process.env);
 const errors = validateSync(configInstance, { skipMissingProperties: false });

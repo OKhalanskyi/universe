@@ -1,37 +1,39 @@
 'use client';
 
-import React, { useState } from "react";
-import { useRepositories } from "../model/use-repositories";
-import { RepositoryCard } from "./repository-card";
-import { CreateRepositoryDialog } from "./create-repository-dialog";
-import { Loader2, RefreshCw, ListFilter } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { useSyncRepositories } from "../model/use-sync-repositories";
-import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
-import {useCurrentUser} from "@/modules/auth/model/use-get-current-user";
+import React, { useState } from 'react';
+import { useRepositories } from '../model/use-repositories';
+import { RepositoryCard } from './repository-card';
+import { CreateRepositoryDialog } from './create-repository-dialog';
+import { Loader2, RefreshCw, ListFilter } from 'lucide-react';
+import { Button } from '@/shared/ui/button';
+import { useSyncRepositories } from '../model/use-sync-repositories';
+import { ToggleGroup, ToggleGroupItem } from '@/shared/ui/toggle-group';
+import { useCurrentUser } from '@/modules/auth/model/use-get-current-user';
 
 interface RepositoryListProps {
   projectId?: string;
   showUnassigned?: boolean;
 }
 
-export function RepositoryList({ projectId, showUnassigned: initialShowUnassigned }: RepositoryListProps) {
-  const [filterMode, setFilterMode] = useState<string>(initialShowUnassigned ? "unassigned" : "all");
-  const { data: user } = useCurrentUser()
+export function RepositoryList({
+  projectId,
+  showUnassigned: initialShowUnassigned,
+}: RepositoryListProps) {
+  const [filterMode, setFilterMode] = useState<string>(
+    initialShowUnassigned ? 'unassigned' : 'all',
+  );
+  const { data: user } = useCurrentUser();
 
-  const currentShowUnassigned = filterMode === "unassigned";
+  const currentShowUnassigned = filterMode === 'unassigned';
 
   const {
     data: repositories,
     isLoading,
     error,
-    refetch
+    refetch,
   } = useRepositories(projectId, currentShowUnassigned);
 
-  const {
-    syncRepositories,
-    isLoading: isSyncing
-  } = useSyncRepositories();
+  const { syncRepositories, isLoading: isSyncing } = useSyncRepositories();
 
   const handleSyncRepositories = () => {
     syncRepositories();
@@ -89,18 +91,18 @@ export function RepositoryList({ projectId, showUnassigned: initialShowUnassigne
                 <ToggleGroupItem value="all" aria-label="Показати всі репозиторії">
                   Всі
                 </ToggleGroupItem>
-                <ToggleGroupItem value="unassigned" aria-label="Показати репозиторії без проєкту" className="w-fit w-52">
+                <ToggleGroupItem
+                  value="unassigned"
+                  aria-label="Показати репозиторії без проєкту"
+                  className="w-fit w-52"
+                >
                   Без проєкту
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
           )}
           {user?.githubId && (
-            <Button
-              variant="outline"
-              onClick={handleSyncRepositories}
-              disabled={isSyncing}
-            >
+            <Button variant="outline" onClick={handleSyncRepositories} disabled={isSyncing}>
               <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
               Синхронізувати з GitHub
             </Button>
@@ -114,11 +116,7 @@ export function RepositoryList({ projectId, showUnassigned: initialShowUnassigne
           <p className="text-muted-foreground mb-4">{emptyMessage}</p>
           <div className="flex space-x-4">
             {user?.githubId && (
-              <Button
-                variant="outline"
-                onClick={handleSyncRepositories}
-                disabled={isSyncing}
-              >
+              <Button variant="outline" onClick={handleSyncRepositories} disabled={isSyncing}>
                 <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
                 Синхронізувати з GitHub
               </Button>
@@ -128,7 +126,7 @@ export function RepositoryList({ projectId, showUnassigned: initialShowUnassigne
         </div>
       ) : (
         <div className="space-y-4">
-          {repositories.map((repository) => (
+          {repositories.map(repository => (
             <RepositoryCard key={repository.id} repository={repository} />
           ))}
         </div>

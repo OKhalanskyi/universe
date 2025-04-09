@@ -1,21 +1,24 @@
 'use client';
 
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui/dialog";
-import { Button } from "@/shared/ui/button";
-import { Plus } from "lucide-react";
-import { ProjectForm, ProjectFormValues } from "./project-form";
-import { useCreateProject } from "../model/use-create-project";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/shared/ui/dialog';
+import { Button } from '@/shared/ui/button';
+import { Plus } from 'lucide-react';
+import { ProjectForm, ProjectFormValues } from './project-form';
+import { useCreateProject } from '../model/use-create-project';
 
 interface CreateProjectDialogProps {
   children?: React.ReactNode;
   trigger?: React.ReactNode;
 }
 
-export function CreateProjectDialog({
-                                      children,
-                                      trigger,
-                                    }: CreateProjectDialogProps) {
+export function CreateProjectDialog({ trigger }: CreateProjectDialogProps) {
   const [open, setOpen] = useState(false);
   const { createProject, isLoading } = useCreateProject();
 

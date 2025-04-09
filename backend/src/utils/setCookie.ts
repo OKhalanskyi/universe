@@ -1,6 +1,6 @@
 import { FastifyReply } from 'fastify';
 import { CookieOptions } from 'express';
-import CONSTANTS from "../config/constants";
+import CONSTANTS from '../config/constants';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 

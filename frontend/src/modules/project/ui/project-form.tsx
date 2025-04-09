@@ -1,15 +1,18 @@
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/ui/form";
-import {Input} from "@/shared/ui/input";
-import {Textarea} from "@/shared/ui/textarea";
-import {Button} from "@/shared/ui/button";
-import {Loader2} from "lucide-react";
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { Input } from '@/shared/ui/input';
+import { Textarea } from '@/shared/ui/textarea';
+import { Button } from '@/shared/ui/button';
+import { Loader2 } from 'lucide-react';
 
 const projectSchema = z.object({
-  name: z.string().min(3, "Назва повинна мати мінімум 3 символи").max(100, "Назва не може перевищувати 100 символів"),
-  description: z.string().max(500, "Опис не може перевищувати 500 символів").optional(),
+  name: z
+    .string()
+    .min(3, 'Назва повинна мати мінімум 3 символи')
+    .max(100, 'Назва не може перевищувати 100 символів'),
+  description: z.string().max(500, 'Опис не може перевищувати 500 символів').optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectSchema>;
@@ -22,14 +25,14 @@ interface ProjectFormProps {
 }
 
 export function ProjectForm({
-                              defaultValues = {
-                                name: '',
-                                description: '',
-                              },
-                              onSubmit,
-                              isLoading = false,
-                              submitText = "Зберегти",
-                            }: ProjectFormProps) {
+  defaultValues = {
+    name: '',
+    description: '',
+  },
+  onSubmit,
+  isLoading = false,
+  submitText = 'Зберегти',
+}: ProjectFormProps) {
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
     defaultValues,

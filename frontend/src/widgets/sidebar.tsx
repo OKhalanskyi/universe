@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
-import {useLogout} from "@/modules/auth/model/use-logout";
-import {usePathname} from "next/navigation";
-import {useCurrentUser} from "@/modules/auth/model/use-get-current-user";
-import {LogOut} from "lucide-react";
-import {Button} from "@/shared/ui/button";
-import {Avatar, AvatarFallback, AvatarImage} from "@/shared/ui/avatar";
+import { useLogout } from '@/modules/auth/model/use-logout';
+import { useCurrentUser } from '@/modules/auth/model/use-get-current-user';
+import { LogOut } from 'lucide-react';
+import { Button } from '@/shared/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 
 const Sidebar = () => {
   const { data: user } = useCurrentUser();
@@ -26,14 +25,14 @@ const Sidebar = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user.avatarUrl} alt={user.name || user.email}/>
-                <AvatarFallback>{(user.name?.[0] || user.email?.[0] || "U").toUpperCase()}</AvatarFallback>
+                <AvatarImage src={user.avatarUrl} alt={user.name || user.email} />
+                <AvatarFallback>
+                  {(user.name?.[0] || user.email?.[0] || 'U').toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <div className="space-y-1">
                 <p className="text-sm font-medium">{user.name || user.email}</p>
-                {user.name && (
-                  <p className="text-xs text-muted-foreground">{user.email}</p>
-                )}
+                {user.name && <p className="text-xs text-muted-foreground">{user.email}</p>}
               </div>
             </div>
           </div>
@@ -44,7 +43,7 @@ const Sidebar = () => {
           onClick={handleLogout}
           disabled={isLoggingOut}
         >
-          <LogOut className="mr-2 h-4 w-4"/>
+          <LogOut className="mr-2 h-4 w-4" />
           Вийти
         </Button>
       </div>

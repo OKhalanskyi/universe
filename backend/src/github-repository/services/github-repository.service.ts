@@ -1,12 +1,15 @@
-import {ConflictException, Injectable, Logger, NotFoundException} from '@nestjs/common';
-import {PrismaService} from "../../prisma/prisma.service";
-import {GithubApiService} from "./github-api.service";
-import {CreateRepositoryDto} from "../dtos/createRepository.dto";
-import {RepositoryResponseDto} from "../dtos/repositoryResponse.dto";
-import {UpdateRepositoryDto} from "../dtos/updateRepository.dto";
-import {User} from "@prisma/client";
-import {UserService} from "../../user/user.service";
-
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { GithubApiService } from './github-api.service';
+import { CreateRepositoryDto } from '../dtos/createRepository.dto';
+import { RepositoryResponseDto } from '../dtos/repositoryResponse.dto';
+import { UpdateRepositoryDto } from '../dtos/updateRepository.dto';
+import { User } from '@prisma/client';
+import { UserService } from '../../user/user.service';
 
 @Injectable()
 export class GithubRepositoryService {
@@ -16,7 +19,10 @@ export class GithubRepositoryService {
     private readonly userService: UserService,
   ) {}
 
-  async create(user: User, createRepoDto: CreateRepositoryDto): Promise<RepositoryResponseDto> {
+  async create(
+    user: User,
+    createRepoDto: CreateRepositoryDto,
+  ): Promise<RepositoryResponseDto> {
     const [owner, name] = createRepoDto.path.split('/');
     const fullName = `${owner}/${name}`;
 
@@ -30,8 +36,13 @@ export class GithubRepositoryService {
     });
 
     if (existingRepo) {
-      if (createRepoDto.projectId || existingRepo.projectId !== createRepoDto.projectId) {
-        return this.update(existingRepo.id, user.id, { projectId: createRepoDto.projectId });
+      if (
+        createRepoDto.projectId ||
+        existingRepo.projectId !== createRepoDto.projectId
+      ) {
+        return this.update(existingRepo.id, user.id, {
+          projectId: createRepoDto.projectId,
+        });
       }
       return this.refresh(user, existingRepo.id);
     }
@@ -45,11 +56,17 @@ export class GithubRepositoryService {
       });
 
       if (repoInProject) {
-        throw new ConflictException(`Repository ${fullName} already exists in this project`);
+        throw new ConflictException(
+          `Repository ${fullName} already exists in this project`,
+        );
       }
     }
 
-    const repoData = await this.githubApiService.getRepositoryData(owner, name, user.githubAccessToken);
+    const repoData = await this.githubApiService.getRepositoryData(
+      owner,
+      name,
+      user.githubAccessToken,
+    );
 
     const repository = await this.prisma.githubRepository.create({
       data: {
@@ -78,7 +95,11 @@ export class GithubRepositoryService {
     return this.mapToResponseDto(repository);
   }
 
-  async findAll(userId: string, projectId?: string, showUnassigned?: boolean): Promise<RepositoryResponseDto[]> {
+  async findAll(
+    userId: string,
+    projectId?: string,
+    showUnassigned?: boolean,
+  ): Promise<RepositoryResponseDto[]> {
     const whereClause: any = { userId };
 
     if (projectId) {
@@ -107,7 +128,11 @@ export class GithubRepositoryService {
     return this.mapToResponseDto(repository);
   }
 
-  async update(id: string, userId: string, updateRepoDto: UpdateRepositoryDto): Promise<RepositoryResponseDto> {
+  async update(
+    id: string,
+    userId: string,
+    updateRepoDto: UpdateRepositoryDto,
+  ): Promise<RepositoryResponseDto> {
     const repository = await this.prisma.githubRepository.findFirst({
       where: { id, userId },
     });
@@ -116,20 +141,25 @@ export class GithubRepositoryService {
       throw new NotFoundException(`Repository with ID ${id} not found`);
     }
 
-    if (updateRepoDto.projectId !== undefined && updateRepoDto.projectId !== repository.projectId) {
+    if (
+      updateRepoDto.projectId !== undefined &&
+      updateRepoDto.projectId !== repository.projectId
+    ) {
       if (updateRepoDto.projectId) {
         const repoInProject = await this.prisma.githubRepository.findFirst({
           where: {
             projectId: updateRepoDto.projectId,
             fullName: repository.fullName,
             NOT: {
-              id: id
-            }
+              id: id,
+            },
           },
         });
 
         if (repoInProject) {
-          throw new ConflictException(`Repository ${repository.fullName} already exists in this project`);
+          throw new ConflictException(
+            `Repository ${repository.fullName} already exists in this project`,
+          );
         }
       }
     }
@@ -150,10 +180,12 @@ export class GithubRepositoryService {
 
     let githubAccessToken = user.githubAccessToken;
 
-    if (githubId ) {
+    if (githubId) {
       const userWithGithub = await this.userService.findByGithubId(githubId);
       if (!userWithGithub) {
-        throw new NotFoundException(`User with GitHub ID ${githubId} not found`);
+        throw new NotFoundException(
+          `User with GitHub ID ${githubId} not found`,
+        );
       }
       githubAccessToken = userWithGithub.githubAccessToken;
     }
@@ -207,12 +239,15 @@ export class GithubRepositoryService {
     if (githubId) {
       const userWithGithub = await this.userService.findByGithubId(githubId);
       if (!userWithGithub) {
-        throw new NotFoundException(`User with GitHub ID ${githubId} not found`);
+        throw new NotFoundException(
+          `User with GitHub ID ${githubId} not found`,
+        );
       }
       githubAccessToken = userWithGithub.githubAccessToken;
     }
 
-    const repos = await this.githubApiService.getUserRepositories(githubAccessToken);
+    const repos =
+      await this.githubApiService.getUserRepositories(githubAccessToken);
 
     const syncedRepos = await Promise.all(
       repos.map(async (repo) => {

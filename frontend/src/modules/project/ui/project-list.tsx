@@ -1,16 +1,16 @@
 'use client';
 
-import React from "react";
-import { useProjects } from "../model/use-projects";
-import { ProjectCard } from "./project-card";
-import { CreateProjectDialog } from "./create-project-dialog";
-import { Loader2 } from "lucide-react";
-import {useCurrentUser} from "@/modules/auth/model/use-get-current-user";
+import React from 'react';
+import { useProjects } from '../model/use-projects';
+import { ProjectCard } from './project-card';
+import { CreateProjectDialog } from './create-project-dialog';
+import { Loader2 } from 'lucide-react';
+import { useCurrentUser } from '@/modules/auth/model/use-get-current-user';
 
 export function ProjectList() {
   const { data: projects, isLoading, error } = useProjects(true);
   const { data: user } = useCurrentUser();
-  console.log(user)
+  console.log(user);
 
   if (isLoading) {
     return (
@@ -41,7 +41,7 @@ export function ProjectList() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
+        {projects.map(project => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>

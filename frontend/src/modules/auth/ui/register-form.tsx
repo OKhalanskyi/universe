@@ -1,29 +1,23 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import { Github, Loader2 } from "lucide-react";
-import {useRegisterForm} from "@/modules/auth/model/use-register-form";
-import {useRegisterSubmit} from "@/modules/auth/model/use-register-submit";
-import {cn} from "@/shared/lib/utils";
-import {Card, CardContent} from "@/shared/ui/card";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/ui/form";
-import {Input} from "@/shared/ui/input";
-import {Button} from "@/shared/ui/button";
-import {GithubLoginButton} from "@/modules/auth/ui/github-login-button";
-import {useCurrentUser} from "@/modules/auth/model/use-get-current-user";
-import {redirect} from "next/navigation";
+import React from 'react';
+import Link from 'next/link';
+import { Github, Loader2 } from 'lucide-react';
+import { useRegisterForm } from '@/modules/auth/model/use-register-form';
+import { useRegisterSubmit } from '@/modules/auth/model/use-register-submit';
+import { cn } from '@/shared/lib/utils';
+import { Card, CardContent } from '@/shared/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { Input } from '@/shared/ui/input';
+import { Button } from '@/shared/ui/button';
+import { GithubLoginButton } from '@/modules/auth/ui/github-login-button';
 
-
-export function RegisterForm({
-                               className,
-                               ...props
-                             }: React.ComponentPropsWithoutRef<"div">) {
+export function RegisterForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const form = useRegisterForm();
   const { onSubmit, isLoading, error, isError } = useRegisterSubmit();
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
@@ -42,9 +36,7 @@ export function RegisterForm({
 
                 {isError && (
                   <div className="p-4 border rounded-lg bg-destructive/10 border-destructive/20 flex flex-col gap-1.5 text-sm">
-                    <p className="font-medium text-destructive">
-                      {error || "Щось пішло не так"}
-                    </p>
+                    <p className="font-medium text-destructive">{error || 'Щось пішло не так'}</p>
                   </div>
                 )}
 
@@ -54,12 +46,9 @@ export function RegisterForm({
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Ім'я</FormLabel>
+                        <FormLabel>Ім&rsquo;я</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="Іван Петренко"
-                            {...field}
-                          />
+                          <Input placeholder="Іван Петренко" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -73,12 +62,7 @@ export function RegisterForm({
                       <FormItem>
                         <FormLabel>Електронна пошта</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="example@mail.com"
-                            type="email"
-                            required
-                            {...field}
-                          />
+                          <Input placeholder="example@mail.com" type="email" required {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -92,12 +76,7 @@ export function RegisterForm({
                       <FormItem>
                         <FormLabel>Пароль</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="••••••"
-                            required
-                            type="password"
-                            {...field}
-                          />
+                          <Input placeholder="••••••" required type="password" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -111,12 +90,7 @@ export function RegisterForm({
                       <FormItem>
                         <FormLabel>Підтвердження паролю</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="••••••"
-                            required
-                            type="password"
-                            {...field}
-                          />
+                          <Input placeholder="••••••" required type="password" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -131,7 +105,7 @@ export function RegisterForm({
                       Реєстрація...
                     </>
                   ) : (
-                    "Зареєструватися"
+                    'Зареєструватися'
                   )}
                 </Button>
 
@@ -144,7 +118,7 @@ export function RegisterForm({
                 <GithubLoginButton />
 
                 <div className="text-center text-sm">
-                  Вже маєте обліковий запис?{" "}
+                  Вже маєте обліковий запис?{' '}
                   <Link href="/login" className="underline underline-offset-4">
                     Увійти
                   </Link>
@@ -158,8 +132,8 @@ export function RegisterForm({
               <Github className="h-20 w-20 mb-4" />
               <h2 className="text-2xl font-bold mb-4">Приєднуйтесь до нас</h2>
               <p className="text-center mb-6">
-                Створіть обліковий запис і отримайте доступ до потужних
-                інструментів для керування вашими GitHub проєктами.
+                Створіть обліковий запис і отримайте доступ до потужних інструментів для керування
+                вашими GitHub проєктами.
               </p>
               <div className="grid grid-cols-1 gap-4 w-full">
                 <div className="bg-white/10 p-3 rounded">
@@ -187,7 +161,7 @@ export function RegisterForm({
       </Card>
 
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        Натискаючи "Зареєструватися", ви погоджуєтесь з нашими <a href="#">Умовами використання</a>{" "}
+        Натискаючи &quot;Зареєструватися&quot;, ви погоджуєтесь з нашими <a href="#">Умовами використання</a>{' '}
         та <a href="#">Політикою конфіденційності</a>.
       </div>
     </div>

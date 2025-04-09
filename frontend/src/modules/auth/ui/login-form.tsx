@@ -1,28 +1,23 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import { Github, Loader2 } from "lucide-react";
-import {useLoginForm} from "@/modules/auth/model/use-login-form";
-import {useLoginSubmit} from "@/modules/auth/model/use-login-submit";
-import {cn} from "@/shared/lib/utils";
-import {Card, CardContent} from "@/shared/ui/card";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/ui/form";
-import {Input} from "@/shared/ui/input";
-import {Button} from "@/shared/ui/button";
-import {GithubLoginButton} from "@/modules/auth/ui/github-login-button";
-import {useCurrentUser} from "@/modules/auth/model/use-get-current-user";
-import {redirect} from "next/navigation";
+import React from 'react';
+import Link from 'next/link';
+import { Github, Loader2 } from 'lucide-react';
+import { useLoginForm } from '@/modules/auth/model/use-login-form';
+import { useLoginSubmit } from '@/modules/auth/model/use-login-submit';
+import { cn } from '@/shared/lib/utils';
+import { Card, CardContent } from '@/shared/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { Input } from '@/shared/ui/input';
+import { Button } from '@/shared/ui/button';
+import { GithubLoginButton } from '@/modules/auth/ui/github-login-button';
 
-export function LoginForm({
-                            className,
-                            ...props
-                          }: React.ComponentPropsWithoutRef<"div">) {
+export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const form = useLoginForm();
   const { onSubmit, isLoading, error, isError } = useLoginSubmit();
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
@@ -41,9 +36,7 @@ export function LoginForm({
 
                 {isError && (
                   <div className="p-4 border rounded-lg bg-destructive/10 border-destructive/20 flex flex-col gap-1.5 text-sm">
-                    <p className="font-medium text-destructive">
-                      {error || "Щось пішло не так"}
-                    </p>
+                    <p className="font-medium text-destructive">{error || 'Щось пішло не так'}</p>
                   </div>
                 )}
 
@@ -55,12 +48,7 @@ export function LoginForm({
                       <FormItem>
                         <FormLabel>Електронна пошта</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="example@mail.com"
-                            type="email"
-                            required
-                            {...field}
-                          />
+                          <Input placeholder="example@mail.com" type="email" required {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -74,19 +62,12 @@ export function LoginForm({
                       <FormItem>
                         <div className="flex items-center justify-between">
                           <FormLabel>Пароль</FormLabel>
-                          <div
-                            className="text-sm underline-offset-2 hover:underline"
-                          >
+                          <div className="text-sm underline-offset-2 hover:underline">
                             Забули пароль?
                           </div>
                         </div>
                         <FormControl>
-                          <Input
-                            placeholder="••••••"
-                            required
-                            type="password"
-                            {...field}
-                          />
+                          <Input placeholder="••••••" required type="password" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -101,7 +82,7 @@ export function LoginForm({
                       Вхід...
                     </>
                   ) : (
-                    "Увійти"
+                    'Увійти'
                   )}
                 </Button>
 
@@ -114,7 +95,7 @@ export function LoginForm({
                 <GithubLoginButton />
 
                 <div className="text-center text-sm">
-                  Не маєте облікового запису?{" "}
+                  Не маєте облікового запису?{' '}
                   <Link href="/register" className="underline underline-offset-4">
                     Зареєструватися
                   </Link>
@@ -128,8 +109,8 @@ export function LoginForm({
               <Github className="h-20 w-20 mb-4" />
               <h2 className="text-2xl font-bold mb-4">GitHub CRM</h2>
               <p className="text-center mb-6">
-                Управляйте своїми GitHub проєктами з легкістю. Відстежуйте
-                репозиторії, зірки та відкриті питання в одному місці.
+                Управляйте своїми GitHub проєктами з легкістю. Відстежуйте репозиторії, зірки та
+                відкриті питання в одному місці.
               </p>
               <div className="grid grid-cols-2 gap-4 w-full">
                 <div className="bg-white/10 p-3 rounded">
@@ -147,8 +128,8 @@ export function LoginForm({
       </Card>
 
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        Натискаючи "Увійти", ви погоджуєтесь з нашими <a href="#">Умовами використання</a>{" "}
-        та <a href="#">Політикою конфіденційності</a>.
+        Натискаючи &quot;Увійти&quot;, ви погоджуєтесь з нашими <a href="#">Умовами використання</a> та{' '}
+        <a href="#">Політикою конфіденційності</a>.
       </div>
     </div>
   );

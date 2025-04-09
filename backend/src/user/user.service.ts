@@ -1,9 +1,14 @@
-import {ConflictException, Injectable, Logger, NotFoundException} from '@nestjs/common';
-import {PrismaService} from '../prisma/prisma.service';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
-import {CreateUserDto} from "./dtos/createUser.dto";
-import {UserDto} from "./dtos/user.dto";
-import {UpdateUserDto} from "./dtos/updateUser.dto";
+import { CreateUserDto } from './dtos/createUser.dto';
+import { UserDto } from './dtos/user.dto';
+import { UpdateUserDto } from './dtos/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -24,7 +29,9 @@ export class UserService {
     }
 
     try {
-      const hashedPassword = password ? await this.hashPassword(password) : null;
+      const hashedPassword = password
+        ? await this.hashPassword(password)
+        : null;
 
       const user = await this.prisma.user.create({
         data: {
@@ -52,7 +59,7 @@ export class UserService {
         },
       });
 
-      return users.map(user => this.mapToUserDto(user));
+      return users.map((user) => this.mapToUserDto(user));
     } catch (error) {
       this.logger.error(`Failed to fetch users: ${error.message}`, error.stack);
       throw error;
@@ -74,7 +81,10 @@ export class UserService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      this.logger.error(`Failed to fetch user ${id}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to fetch user ${id}: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }
@@ -94,7 +104,10 @@ export class UserService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      this.logger.error(`Failed to fetch user by email ${email}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to fetch user by email ${email}: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }
@@ -106,7 +119,9 @@ export class UserService {
       });
 
       if (!user) {
-        throw new NotFoundException(`User with GitHub ID ${githubId} not found`);
+        throw new NotFoundException(
+          `User with GitHub ID ${githubId} not found`,
+        );
       }
 
       return this.mapToUserWithTokenDto(user);
@@ -114,7 +129,10 @@ export class UserService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      this.logger.error(`Failed to fetch user by GitHub ID ${githubId}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to fetch user by GitHub ID ${githubId}: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }
@@ -128,7 +146,9 @@ export class UserService {
       });
 
       if (userWithEmail && userWithEmail.id !== id) {
-        throw new ConflictException(`User with email ${updateUserDto.email} already exists`);
+        throw new ConflictException(
+          `User with email ${updateUserDto.email} already exists`,
+        );
       }
     }
 
@@ -145,7 +165,10 @@ export class UserService {
 
       return this.mapToUserDto(updatedUser);
     } catch (error) {
-      this.logger.error(`Failed to update user ${id}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to update user ${id}: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }
@@ -160,7 +183,10 @@ export class UserService {
 
       return { success: true };
     } catch (error) {
-      this.logger.error(`Failed to remove user ${id}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to remove user ${id}: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }
@@ -170,13 +196,16 @@ export class UserService {
 
     try {
       return await this.prisma.githubRepository.findMany({
-        where: {userId},
+        where: { userId },
         orderBy: {
           createdAt: 'desc',
         },
       });
     } catch (error) {
-      this.logger.error(`Failed to fetch GitHub repositories for user ${userId}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Failed to fetch GitHub repositories for user ${userId}: ${error.message}`,
+        error.stack,
+      );
       throw error;
     }
   }

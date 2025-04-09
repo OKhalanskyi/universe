@@ -1,22 +1,24 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import {GithubRepositoryData} from "../interfaces/githubRepositoryData";
+import { GithubRepositoryData } from '../interfaces/githubRepositoryData';
 
 @Injectable()
 export class GithubApiService {
   private readonly baseUrl = 'https://api.github.com';
   private readonly userAgent = 'GitHub-CRM-App';
 
-  constructor(
-    private readonly httpService: HttpService,
-  ) {}
+  constructor(private readonly httpService: HttpService) {}
 
-  async getRepositoryData(owner: string, repo: string, userToken?: string): Promise<GithubRepositoryData> {
+  async getRepositoryData(
+    owner: string,
+    repo: string,
+    userToken?: string,
+  ): Promise<GithubRepositoryData> {
     try {
       const headers: Record<string, string> = {
         'User-Agent': this.userAgent,
-        'Accept': 'application/vnd.github.v3+json',
+        Accept: 'application/vnd.github.v3+json',
       };
 
       if (userToken) {
@@ -36,7 +38,10 @@ export class GithubApiService {
         throw new HttpException('Repository not found', HttpStatus.NOT_FOUND);
       }
       if (error.response?.status === 403) {
-        throw new HttpException('API rate limit exceeded', HttpStatus.TOO_MANY_REQUESTS);
+        throw new HttpException(
+          'API rate limit exceeded',
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
       }
       throw new HttpException(
         'Failed to fetch repository data from GitHub',
@@ -45,7 +50,9 @@ export class GithubApiService {
     }
   }
 
-  async getUserRepositories(accessToken: string): Promise<GithubRepositoryData[]> {
+  async getUserRepositories(
+    accessToken: string,
+  ): Promise<GithubRepositoryData[]> {
     try {
       const { data } = await firstValueFrom(
         this.httpService.get<GithubRepositoryData[]>(

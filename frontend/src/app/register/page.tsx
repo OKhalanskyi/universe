@@ -1,10 +1,8 @@
 import React from 'react';
-import {RegisterForm} from "@/modules/auth";
+import { RegisterForm } from '@/modules/auth';
 
 const RegisterPage = () => {
-  return (
-    <RegisterForm />
-  );
+  return <RegisterForm />;
 };
 
 export default RegisterPage;

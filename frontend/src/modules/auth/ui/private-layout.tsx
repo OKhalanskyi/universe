@@ -1,12 +1,12 @@
 'use client';
 
-import React, {PropsWithChildren, useEffect} from 'react';
-import {useCurrentUser} from "@/modules/auth/model/use-get-current-user";
-import {usePathname, useRouter} from "next/navigation";
-import {SidebarProvider} from "@/shared/ui/sidebar";
-import Sidebar from "@/widgets/sidebar";
+import React, { PropsWithChildren, useEffect } from 'react';
+import { useCurrentUser } from '@/modules/auth/model/use-get-current-user';
+import { usePathname, useRouter } from 'next/navigation';
+import { SidebarProvider } from '@/shared/ui/sidebar';
+import Sidebar from '@/widgets/sidebar';
 
-export const PrivateLayout = ({children}: PropsWithChildren) => {
+export const PrivateLayout = ({ children }: PropsWithChildren) => {
   const { data: user, isLoading, error } = useCurrentUser();
   const router = useRouter();
   const pathname = usePathname();
@@ -20,9 +20,7 @@ export const PrivateLayout = ({children}: PropsWithChildren) => {
   if (isLoading) {
     return (
       <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-        <div className="w-full max-w-sm md:max-w-3xl">
-          Loading...
-        </div>
+        <div className="w-full max-w-sm md:max-w-3xl">Loading...</div>
       </div>
     );
   }

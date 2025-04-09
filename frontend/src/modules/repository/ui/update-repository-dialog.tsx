@@ -1,24 +1,27 @@
 'use client';
 
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui/dialog";
-import { Button } from "@/shared/ui/button";
-import { Edit2 } from "lucide-react";
-import { useUpdateRepository } from "../model/use-update-repository";
-import { Repository } from "../interfaces/repository";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
-import { Loader2 } from "lucide-react";
-import { useProjects } from "@/modules/project/model/use-projects";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/shared/ui/dialog';
+import { Button } from '@/shared/ui/button';
+import { Edit2 } from 'lucide-react';
+import { useUpdateRepository } from '../model/use-update-repository';
+import { Repository } from '../interfaces/repository';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { Loader2 } from 'lucide-react';
+import { useProjects } from '@/modules/project/model/use-projects';
 
 interface UpdateRepositoryDialogProps {
   repository: Repository;
   trigger?: React.ReactNode;
 }
 
-export function UpdateRepositoryDialog({
-                                         repository,
-                                         trigger,
-                                       }: UpdateRepositoryDialogProps) {
+export function UpdateRepositoryDialog({ repository, trigger }: UpdateRepositoryDialogProps) {
   const [open, setOpen] = useState(false);
   const [projectId, setProjectId] = useState(repository.projectId || 'none');
   const { updateRepository, isLoading } = useUpdateRepository(repository.id);
@@ -51,15 +54,12 @@ export function UpdateRepositoryDialog({
                 <span className="text-sm text-muted-foreground">Завантаження проєктів...</span>
               </div>
             ) : (
-              <Select
-                value={projectId}
-                onValueChange={setProjectId}
-              >
+              <Select value={projectId} onValueChange={setProjectId}>
                 <SelectTrigger>
                   <SelectValue placeholder="Виберіть проєкт" />
                 </SelectTrigger>
                 <SelectContent>
-                  {projects?.map((project) => (
+                  {projects?.map(project => (
                     <SelectItem key={project.id} value={project.id}>
                       {project.name}
                     </SelectItem>
@@ -69,18 +69,14 @@ export function UpdateRepositoryDialog({
             )}
           </div>
 
-          <Button
-            onClick={handleSubmit}
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button onClick={handleSubmit} className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Зберігання...
               </>
             ) : (
-              "Зберегти зміни"
+              'Зберегти зміни'
             )}
           </Button>
         </div>

@@ -1,10 +1,11 @@
 'use client';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import {createProject} from "@/modules/project/api/create-project";
-import {CreateProjectInput} from "@/modules/project/interfaces/project";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { createProject } from '@/modules/project/api/create-project';
+import { CreateProjectInput } from '@/modules/project/interfaces/project';
+import {AxiosError} from "axios";
 
 export const useCreateProject = (options?: { redirectTo?: string }) => {
   const queryClient = useQueryClient();
@@ -12,9 +13,9 @@ export const useCreateProject = (options?: { redirectTo?: string }) => {
 
   const mutation = useMutation({
     mutationFn: createProject,
-    onSuccess: async (data) => {
-      toast.success("Проєкт створено", {
-        description: "Новий проєкт успішно додано",
+    onSuccess: async data => {
+      toast.success('Проєкт створено', {
+        description: 'Новий проєкт успішно додано',
       });
 
       await queryClient.invalidateQueries({ queryKey: ['projects'] });
@@ -23,10 +24,12 @@ export const useCreateProject = (options?: { redirectTo?: string }) => {
         router.push(options.redirectTo.replace(':id', data.id));
       }
     },
-    onError: (error: any) => {
-      toast.error("Помилка при створенні проєкту", {
-        description: error.response?.data?.message || "Перевірте правильність даних",
-      });
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error('Помилка при створенні проєкту', {
+          description: error.response?.data?.message || 'Перевірте правильність даних',
+        });
+      }
     },
   });
 

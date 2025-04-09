@@ -1,15 +1,17 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
-import {PrismaService} from "../prisma/prisma.service";
-import {ProjectResponseDto} from "./dtos/projectResponse.dto";
-import {CreateProjectDto} from "./dtos/createProject.dto";
-import {UpdateProjectDto} from "./dtos/updateProject.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { ProjectResponseDto } from './dtos/projectResponse.dto';
+import { CreateProjectDto } from './dtos/createProject.dto';
+import { UpdateProjectDto } from './dtos/updateProject.dto';
 
 @Injectable()
 export class ProjectService {
-
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: string, createProjectDto: CreateProjectDto): Promise<ProjectResponseDto> {
+  async create(
+    userId: string,
+    createProjectDto: CreateProjectDto,
+  ): Promise<ProjectResponseDto> {
     const project = await this.prisma.project.create({
       data: {
         name: createProjectDto.name,
@@ -23,24 +25,35 @@ export class ProjectService {
     return this.mapToResponseDto(project);
   }
 
-  async findAll(userId: string, includeRepositories = false): Promise<ProjectResponseDto[]> {
+  async findAll(
+    userId: string,
+    includeRepositories = false,
+  ): Promise<ProjectResponseDto[]> {
     const projects = await this.prisma.project.findMany({
       where: { userId },
-      include: includeRepositories ? {
-        repositories: true,
-      } : undefined,
+      include: includeRepositories
+        ? {
+            repositories: true,
+          }
+        : undefined,
       orderBy: { updatedAt: 'desc' },
     });
 
-    return projects.map(project => this.mapToResponseDto(project));
+    return projects.map((project) => this.mapToResponseDto(project));
   }
 
-  async findOne(id: string, userId: string, includeRepositories = false): Promise<ProjectResponseDto> {
+  async findOne(
+    id: string,
+    userId: string,
+    includeRepositories = false,
+  ): Promise<ProjectResponseDto> {
     const project = await this.prisma.project.findFirst({
       where: { id, userId },
-      include: includeRepositories ? {
-        repositories: true,
-      } : undefined,
+      include: includeRepositories
+        ? {
+            repositories: true,
+          }
+        : undefined,
     });
 
     if (!project) {
@@ -50,7 +63,11 @@ export class ProjectService {
     return this.mapToResponseDto(project);
   }
 
-  async update(id: string, userId: string, updateProjectDto: UpdateProjectDto): Promise<ProjectResponseDto> {
+  async update(
+    id: string,
+    userId: string,
+    updateProjectDto: UpdateProjectDto,
+  ): Promise<ProjectResponseDto> {
     const project = await this.prisma.project.findFirst({
       where: { id, userId },
     });
@@ -96,7 +113,7 @@ export class ProjectService {
     };
 
     if (project.repositories) {
-      response.repositories = project.repositories.map(repo => ({
+      response.repositories = project.repositories.map((repo) => ({
         id: repo.id,
         owner: repo.owner,
         name: repo.name,

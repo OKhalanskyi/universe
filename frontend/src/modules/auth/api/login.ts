@@ -1,6 +1,6 @@
-import {LoginFormValues} from "@/modules/auth/model/use-login-form";
-import apiClient from "@/config/axios-client";
-import {User} from "@/modules/auth/interfaces/user";
+import { LoginFormValues } from '@/modules/auth/model/use-login-form';
+import apiClient from '@/config/axios-client';
+import { User } from '@/modules/auth/interfaces/user';
 
 interface LoginResponse {
   success: boolean;
