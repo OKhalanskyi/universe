@@ -1,0 +1,75 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String         @id @default(uuid())
+  email             String         @unique
+  password          String?
+  name              String?
+  avatarUrl         String?
+  githubId          String?        @unique
+  githubAccessToken String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  projects          Project[]
+  githubRepositories GithubRepository[]
+
+  @@map("users")
+}
+
+model Project {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  repositories   GithubRepository[]
+
+  @@map("projects")
+}
+
+model GithubRepository {
+  id             String   @id @default(uuid())
+  owner          String
+  name           String
+  fullName       String
+  url            String
+  stars          Int      @default(0)
+  forks          Int      @default(0)
+  openIssues     Int      @default(0)
+  createdAt      DateTime
+  updatedAt      DateTime @updatedAt
+  lastFetchedAt  DateTime @default(now())
+
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  projectId      String?
+  project        Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  isUserOwned    Boolean  @default(false)
+
+  @@unique([userId, fullName])
+  @@index([projectId, fullName])
+  @@index([fullName])
+  @@map("github_repositories")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("sessions")
+}
